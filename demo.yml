@@ -1,0 +1,32 @@
+---
+logLevel: 'TRACE'
+pluginList: []
+saveScreen: true
+reportTitle: '报告名称'
+waitLoading: 500
+waitLaunch: 6000
+showCancel: true
+maxTime: 1080
+maxDepth: 10
+capability:
+  appPackage: "com.mryu.devstudy"
+  autoGrantPermissions: true
+  automationName: 'uiautomator2'
+  noReset: 'true'
+  fullReset: 'true'
+  appium: 'http://127.0.0.1:4723/wd/hub'
+
+selectedList:
+  - //*[@clickable="true"]
+  - //*[@text="我选好了"]
+  - "//*[contains(name(), 'Button')]"
+  - "//*[contains(name(), 'Text') and @clickable='true' and string-length(@text)<10]"
+  - "//*[@clickable='true']/*[contains(name(), 'Text') and string-length(@text)<10]"
+  - "//*[contains(name(), 'Image') and @clickable='true']"
+  - "//*[contains(name(), 'Image') and @name!='']"
+  - "//*[contains(name(), 'Text') and @name!='' and string-length(@label)<10]"
+firstList: []
+triggerActions:
+  - xpath: "//*[@resource-id='package_name:id/viewPager']"
+    action: 'driver.swipe("left")'
+    times: 2

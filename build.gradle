@@ -1,0 +1,85 @@
+import org.gradle.internal.jvm.Jvm
+
+buildscript {
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/repository/spring-plugin' }
+    }
+}
+plugins {
+    // Apply the scala plugin to add support for Scala
+    id 'scala'
+
+    // Apply the java-library plugin for API and implementation separation.
+    id 'java-library'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
+}
+repositories {
+    // Use jcenter for resolving dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    maven { url 'https://maven.aliyun.com/repository/public' }
+    maven { url 'https://jitpack.io' }
+}
+
+mainClassName = "com.mryu.appcrawler.AppCrawler"
+
+jar {
+    manifest {
+        attributes 'Implementation-Version': System.getenv("APP_VERSION") ?: "1.0"
+    }
+}
+
+tasks.withType(ScalaCompile) {
+    scalaCompileOptions.forkOptions.with {
+        memoryMaximumSize = '1g'
+        jvmArgs = ['-XX:MaxPermSize=512m']
+    }
+    scalaCompileOptions.with {
+        force = true
+    }
+}
+
+
+
+dependencies {
+    implementation 'org.scala-lang:scala-library:2.12.6'
+    implementation 'org.scala-lang:scala-reflect:2.12.6'
+    implementation 'org.scala-lang:scala-compiler:2.12.6'
+    implementation 'com.fasterxml.jackson.module:jackson-module-scala_2.12:2.9.5'
+    implementation 'org.scalactic:scalactic_2.12:3.0.5'
+    implementation 'org.scalatest:scalatest_2.12:3.0.5'
+    implementation 'org.scalatra.scalate:scalate-core_2.12:1.8.0'
+    implementation 'com.github.poslegm:scala-phash_2.12:1.0.3'
+    implementation 'com.github.tototoshi:scala-csv_2.12:1.3.4'
+    implementation 'com.github.scopt:scopt_2.12:3.5.0'
+
+    implementation 'io.appium:java-client:7.3.0'
+    implementation 'com.brsanthu:google-analytics-java:1.1.2'
+    implementation 'org.slf4j:slf4j-api:1.7.18'
+    implementation 'org.slf4j:slf4j-log4j12:1.7.18'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.5'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.5'
+    implementation 'net.lightbody.bmp:browsermob-core:2.1.5'
+    implementation 'org.lucee:commons-codec:1.10.L001'
+    implementation 'org.jsoup:jsoup:1.9.2'
+    implementation 'com.jayway.jsonpath:json-path:2.2.0'
+    implementation 'org.apache.directory.studio:org.apache.commons.io:2.4'
+    implementation 'org.apache.logging.log4j:log4j-core:2.7'
+    implementation 'macaca.webdriver.client:macacaclient:2.0.20'
+    implementation 'org.javassist:javassist:3.22.0-CR2'
+    implementation 'us.codecraft:xsoup:0.3.1'
+    implementation 'junit:junit:4.12'
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.2.0'
+    implementation 'com.github.spullara.mustache.java:compiler:0.9.5'
+    implementation 'org.ow2.asm:asm:5.2'
+    implementation 'io.qameta.allure:allure-junit5:2.6.0'
+    implementation 'org.apache.commons:commons-text:1.4'
+    implementation 'org.pegdown:pegdown:1.6.0'
+    implementation 'com.google.guava:guava:24.1-jre'
+    implementation  files(Jvm.current().toolsJar)
+
+    scalaCompilerPlugins "org.typelevel:kind-projector_2.12:0.10.3"
+}
+
+
